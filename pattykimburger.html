@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pattykim Burgers — Hungry? Just say Pattykim!</title>
+  <style>
+    :root{
+      --red:#c62828;
+      --mustard:#ffca28;
+      --cream:#fff8e1;
+      --brown:#7b4f2a;
+      --card:#fff;
+      --radius:12px;
+      font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+    }
+    body{margin:0;background:linear-gradient(180deg,var(--cream),#fff);color:#222}
+    header{background:var(--red);color:white;padding:18px 12px;text-align:center;position:sticky;top:0;z-index:50;box-shadow:0 4px 12px rgba(0,0,0,0.08)}
+    .logo{max-width:120px;border-radius:16px;box-shadow:0 6px 12px rgba(0,0,0,0.12);vertical-align:middle}
+    .tag{margin-top:8px;font-weight:700;font-size:18px}
+    main{max-width:1100px;margin:24px auto;padding:0 16px}
+    .hero{display:flex;gap:20px;align-items:center;justify-content:space-between;background:linear-gradient(90deg,rgba(255,202,40,0.12),rgba(198,40,40,0.06));padding:18px;border-radius:16px}
+    .hero-left{flex:1}
+    .hero h1{margin:0;font-size:30px;color:var(--brown)}
+    .hero p{margin:8px 0 14px;color:#4a2f1b}
+    .btn{display:inline-block;padding:10px 16px;border-radius:10px;background:var(--mustard);color:#111;font-weight:700;text-decoration:none;cursor:pointer;border:none}
+    .btn.secondary{background:transparent;border:2px solid var(--red);color:var(--red)}
+    .container{display:grid;grid-template-columns:1fr 340px;gap:20px;margin-top:20px}
+    .card{background:var(--card);border-radius:var(--radius);padding:16px;box-shadow:0 6px 18px rgba(0,0,0,0.06)}
+    .about h2{color:var(--red);margin-top:0}
+    .menu-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    .menu-item{display:flex;flex-direction:column;padding:12px;border-radius:12px;border:1px dashed rgba(0,0,0,0.05);background:linear-gradient(180deg,#fff,#fffef6)}
+    .menu-item h3{margin:0;font-size:18px}
+    .menu-item p{margin:8px 0;color:#444;font-size:14px}
+    .price{font-weight:800;color:var(--red);margin-top:auto}
+    .add-btn{margin-top:10px}
+    .cart{position:sticky;top:92px}
+    .cart h3{margin:0 0 10px 0}
+    .cart-list{max-height:340px;overflow:auto;margin-bottom:10px}
+    .cart-row{display:flex;justify-content:space-between;gap:8px;padding:8px 0;border-bottom:1px solid #eee}
+    .total{font-weight:900;font-size:18px;margin-top:10px}
+    .form-row{display:flex;gap:8px}
+    .form-row input,.form-row select,textarea{flex:1;padding:10px;border-radius:8px;border:1px solid #ddd}
+    textarea{min-height:80px}
+    footer{margin-top:26px;text-align:center;color:#555;padding:20px}
+    @media (max-width:900px){
+      .container{grid-template-columns:1fr;}
+      .cart{position:static}
+      .logo{max-width:100px}
+      .menu-grid{grid-template-columns:1fr}
+      .hero{flex-direction:column}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="https://i.postimg.cc/3N9gbG4K/logo.jpg" alt="Pattykim logo" class="logo" id="headerLogo" />
+    <div class="tag">Hungry? Just say <strong>Pattykim!</strong></div>
+  </header>
+  <main>
+    <section class="hero card">
+      <div class="hero-left">
+        <h1>Pattykim Burgers</h1>
+        <p>Classic flavors inspired by the golden age of burger joy. Simple. Tasty. Adorable.</p>
+        <button class="btn" id="seeMenuBtn">See Menu</button>
+        <button class="btn secondary" id="orderNowTop">Order Now</button>
+      </div>
+      <div style="width:160px;text-align:center">
+        <img src="https://i.postimg.cc/3N9gbG4K/logo.jpg" alt="Pattykim logo" style="max-width:140px;border-radius:12px;box-shadow:0 6px 12px rgba(0,0,0,0.08)"/>
+      </div>
+    </section>
+    <div class="container">
+      <section>
+        <article class="card about">
+          <h2>About Pattykim</h2>
+          <p><strong>Pattykim</strong> started as a playful idea — combining the Tagalog word <em>patikim</em> ("let me taste") with <strong>patty</strong> from burger. Inspired by the warm nostalgia of old McDonald's signage and comfort food, Pattykim serves juicy, satisfying burgers with a smile.</p>
+        </article>
+        <article class="card" id="menuSection">
+          <h2 style="color:var(--red);margin-top:0">Menu</h2>
+          <div style="margin-bottom:8px;color:#555">Tap <strong>Add to Cart</strong> to build your order. View your cart on the right.</div>
+          <h3>Burgers</h3>
+          <div class="menu-grid" id="menuGrid"></div>
+          <h3 style="margin-top:14px">Add-ons & Sides</h3>
+          <div class="menu-grid" id="sidesGrid"></div>
+          <h3 style="margin-top:14px">Drinks</h3>
+          <div class="menu-grid" id="drinksGrid"></div>
+          <h3 style="margin-top:14px">Combos</h3>
+          <div class="menu-grid" id="comboGrid"></div>
+        </article>
+        <article class="card">
+          <h2>Contact</h2>
+          <p>Email: <a href="mailto:burgerpattykim@gmail.com">burgerpattykim@gmail.com</a><br>Phone: <a href="tel:09633083795">0963-308-3795</a></p>
+          <form id="contactForm">
+            <div class="form-row">
+              <input type="text" id="cname" placeholder="Your name" required />
+              <input type="email" id="cemail" placeholder="Email" required />
+            </div>
+            <div style="margin-top:8px">
+              <textarea id="cmessage" placeholder="Message" required></textarea>
+            </div>
+            <div style="margin-top:8px;text-align:right">
+              <button type="submit" class="btn">Send</button>
+            </div>
+          </form>
+        </article>
+      </section>
+      <aside>
+        <div class="card cart" id="cartCard">
+          <h3>Your Cart</h3>
+          <div class="cart-list" id="cartList">(No items yet)</div>
+          <div class="total">Total: ₱<span id="cartTotal">0</span></div>
+          <hr style="margin:12px 0">
+          <h4>Checkout</h4>
+          <form id="checkoutForm">
+            <div class="form-row" style="margin-bottom:8px">
+              <input type="text" id="name" placeholder="Full name" required />
+            </div>
+            <div class="form-row" style="margin-bottom:8px">
+              <input type="email" id="email" placeholder="Email" required />
+            </div>
+            <div class="form-row" style="margin-bottom:8px">
+              <input type="tel" id="phone" placeholder="Phone number" required />
+            </div>
+            <div style="margin-bottom:8px">
+              <select id="paymentMethod">
+                <option value="cod">Cash on Delivery</option>
+                <option value="gcash">GCash</option>
+              </select>
+            </div>
+            <div id="gcashInfo" style="display:none;margin-bottom:8px;background:#fff7e6;padding:8px;border-radius:8px;border:1px dashed #ffd79b">
+              <div style="font-weight:700">GCash Payment</div>
+              <div>Send payment to: <strong>0917-000-0000</strong> and put your Order ID in the message. (This is a simulated demo for class)</div>
+            </div>
+            <button type="submit" class="btn" style="width:100%">Place Order</button>
+          </form>
+        </div>
+        <div style="height:12px"></div>
+        <div class="card" style="text-align:center">
+          <small>© 2025 Pattykim Burgers — Hungry? Just say Pattykim!</small>
+        </div>
+      </aside>
+    </div>
+  </main>
+  <footer>
+    <small>Pattykim Burgers • burgerpattykim@gmail.com • 0963-308-3795</small>
+  </footer>
+  <script>
+    const menu = [
+      {id:'classic',name:'Classic Cheeseburger',desc:'Juicy beef patty topped with melted cheese, lettuce, tomato, and signature sauce.',price:99},
+      {id:'double',name:'Double Patty Burger',desc:'Two layers of flavorful beef patties with extra cheese and caramelized onions.',price:159},
+      {id:'spicyfire',name:'Spicy Fire Burger',desc:'Beef patty with jalapeños, spicy mayo, and pepper jack cheese for a hot kick.',price:129},
+      {id:'bacon',name:'Bacon Overload Burger',desc:'Crispy bacon strips with cheddar cheese, lettuce, and smoky BBQ sauce.',price:149},
+      {id:'breakfast',name:'Egg & Beef Breakfast Burger',desc:'Beef patty with fried egg, cheese, and special morning sauce.',price:119},
+      {id:'bbqranch',name:'BBQ Ranch Burger',desc:'Beef patty with onion rings, BBQ sauce, and ranch dressing.',price:139},
+      {id:'veggie',name:'Veggie Delight Burger',desc:'Plant-based patty with fresh veggies and vegan mayo.',price:119},
+      {id:'spicychicken',name:'Spicy Chicken Burger',desc:'Crispy spicy chicken patty with lettuce and spicy sauce.',price:119}
+    ];
+    const sides = [
+      {id:'fries',name:'Extra Fries',price:50,desc:'Crispy golden fries'},
+      {id:'cheese',name:'Extra Cheese',price:20,desc:'Add extra melted cheese'},
+      {id:'patty',name:'Extra Patty',price:60,desc:'Add another patty'}
+    ];
+    const drinks = [
+      {id:'soft',name:'Soft Drink (Regular)',price:35},
+      {id:'icedtea',name:'Iced Tea',price:40}
+    ];
+    const combos = [
+      {id:'combo1',name:'Classic Meal Deal',price:149,desc:'Classic Cheeseburger + Regular Fries + Soft Drink'},
+      {id:'combo2',name:'Double Feast Combo',price:199,desc:'Double Patty Burger + Large Fries + Soft Drink'},
+      {id:'combo3',name:'Spicy Chicken Treat',price:169,desc:'Spicy Chicken Burger + Cheese Fries + Iced Tea'}
+    ];
+    const menuGrid = document.getElementById('menuGrid');
+    const sidesGrid = document.getElementById('sidesGrid');
+    const drinksGrid = document.getElementById('drinksGrid');
+    const comboGrid = document.getElementById('comboGrid');
+    function createMenuCard(item, type){
+      const div = document.createElement('div');
+      div.className = 'menu-item';
+      div.innerHTML = `<h3>${item.name}</h3><p>${item.desc || ''}</p><div style="display:flex;align-items:center;justify-content:space-between"><div class="price">₱${item.price}</div><button class="btn add-btn" data-id="${item.id}" data-type="${type}">Add to Cart</button></div>`;
+      return div;
+    }
+    menu.forEach(m=>menuGrid.appendChild(createMenuCard(m,'menu')));
+    sides.forEach(s=>sidesGrid.appendChild(createMenuCard(s,'side')));
+    drinks.forEach(d=>drinksGrid.appendChild(createMenuCard(d,'drink')));
+    combos.forEach(c=>comboGrid.appendChild(createMenuCard(c,'combo')));
+    let cart = JSON.parse(localStorage.getItem('pattykim_cart')||'{}');
+    function saveCart(){localStorage.setItem('pattykim_cart',JSON.stringify(cart));}
+    function addToCart(id, name, price){
+      if(cart[id]) cart[id].qty += 1;
+      else cart[id] = {id,name,price,qty:1};
+      saveCart();
+      renderCart();
+    }
+    function removeFromCart(id){
+      delete cart[id]; saveCart(); renderCart();
+    }
+    function changeQty(id, delta){
+      if(!cart[id]) return;
+      cart[id].qty += delta; if(cart[id].qty<=0) delete cart[id]; saveCart(); renderCart();
+    }
+    function renderCart(){
+      const cartList = document.getElementById('cartList');
+      cartList.innerHTML = '';
+      const keys = Object.keys(cart);
+      if(keys.length===0){cartList.innerHTML='(No items yet)';document.getElementById('cartTotal').innerText='0';return}
+      let total=0;
+      keys.forEach(k=>{
+        const it = cart[k];
+        total += it.price * it.qty;
+        const row = document.createElement('div'); row.className='cart-row';
+        row.innerHTML = `<div><strong>${it.name}</strong><br><small>₱${it.price} x ${it.qty}</small></div><div style="text-align:right"><div style="margin-bottom:6px">₱${it.price*it.qty}</div><div><button onclick="changeQty('${k}',1)" class="btn" style="padding:6px 8px;">+</button> <button onclick="changeQty('${k}',-1)" class="btn secondary" style="padding:6px 8px;">-</button> <button onclick="removeFromCart('${k}')" class="btn" style="padding:6px 8px;background:#eee;color:#333;border:1px solid #ddd">Remove</button></div></div>`;
+        cartList.appendChild(row);
+      });
+      document.getElementById('cartTotal').innerText = total;
+    }
+    window.addToCartFromBtn = function(e){
+      const id = e.getAttribute('data-id');
+      const type = e.getAttribute('data-type');
+      const all = [...menu,...sides,...drinks,...combos];
+      const it = all.find(x=>x.id===id);
+      if(!it) return;
+      addToCart(it.id,it.name,it.price);
+    }
+    document.addEventListener('click',function(ev){
+      const btn = ev.target.closest('button[data-id]');
+      if(btn){ addToCartFromBtn(btn); }
+    });
+    document.getElementById('paymentMethod').addEventListener('change',function(e){
+      document.getElementById('gcashInfo').style.display = (e.target.value==='gcash')? 'block':'none';
+    });
+    document.getElementById('checkoutForm').addEventListener('submit',function(ev){
+      ev.preventDefault();
+      const keys = Object.keys(cart);
+      if(keys.length===0){ alert('Your cart is empty. Please add items before checkout.'); return; }
+      const order = {
+        id:'PK'+Date.now(),
+        name:document.getElementById('name').value,
+        email:document.getElementById('email').value,
+        phone:document.getElementById('phone').value,
+        method:document.getElementById('paymentMethod').value,
+        items:cart,
+        total:document.getElementById('cartTotal').innerText
+      };
+      setTimeout(()=>{
+        cart = {}; saveCart(); renderCart();
+        alert('Order placed!\nOrder ID: '+order.id+'\nTotal: ₱'+order.total+'\nThank you, '+order.name+'!');
+      },600);
+    });
+    document.getElementById('contactForm').addEventListener('submit',function(ev){
+      ev.preventDefault();
+      alert('Thanks! Your message was sent (simulated). We will contact you at '+document.getElementById('cemail').value);
+      document.getElementById('contactForm').reset();
+    });
+    document.getElementById('seeMenuBtn').addEventListener('click',()=>{document.getElementById('menuSection').scrollIntoView({behavior:'smooth'})});
+    document.getElementById('orderNowTop').addEventListener('click',()=>{document.getElementById('name').scrollIntoView({behavior:'smooth'})});
+    renderCart();
+  </script>
+</body>
+</html>
